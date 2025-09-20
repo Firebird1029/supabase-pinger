@@ -9,7 +9,12 @@
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.39.0",
+		"bun": "^1.2.22",
 		"node-cron": "^3.0.3"
+	},
+	"engines": {
+		"node": "^24.0.0",
+		"bun": "^1.0.0"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.5",

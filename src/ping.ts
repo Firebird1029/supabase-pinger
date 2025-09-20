@@ -15,16 +15,22 @@ export async function pingDatabases(): Promise<void> {
 	try {
 		const configData = await readFile("./config.json", "utf-8");
 		const configs: DatabaseConfig[] = JSON.parse(configData);
+		const successfulDatabases: string[] = [];
 
 		for (const config of configs) {
-			await pingDatabase(config);
+			const success = await pingDatabase(config);
+			if (success) {
+				successfulDatabases.push(config.name);
+			}
 		}
+
+		console.log(`Successfully pinged databases: ${successfulDatabases.join(", ")}`);
 	} catch (error) {
 		console.error("Error pinging databases:", error);
 	}
 }
 
-async function pingDatabase(config: DatabaseConfig): Promise<void> {
+async function pingDatabase(config: DatabaseConfig): Promise<boolean> {
 	try {
 		const supabaseUrl =
 			config.supabase_url || (config.supabase_url_env ? process.env[config.supabase_url_env] : undefined);
@@ -34,17 +40,17 @@ async function pingDatabase(config: DatabaseConfig): Promise<void> {
 
 		if (!supabaseUrl) {
 			console.error(`Supabase URL not found for ${config.name}`);
-			return;
+			return false;
 		}
 
 		if (!supabaseKey) {
 			console.error(`Supabase key not found for ${config.name}`);
-			return;
+			return false;
 		}
 
 		if (!tableName) {
 			console.error(`Table name not found for ${config.name}`);
-			return;
+			return false;
 		}
 
 		const supabase = createClient(supabaseUrl, supabaseKey);
@@ -53,10 +59,11 @@ async function pingDatabase(config: DatabaseConfig): Promise<void> {
 
 		if (error) {
 			console.error(`Error pinging ${config.name}:`, error.message);
-		} else {
-			// console.log(`Successfully pinged ${config.name}`);
+			return false;
 		}
+		return true;
 	} catch (error) {
 		console.error(`Failed to ping ${config.name}:`, error);
+		return false;
 	}
 }

@@ -1,0 +1,20 @@
+[
+	{
+		"name": "Database1",
+		"supabase_url": "https://your-supabase-url-1.supabase.co",
+		"supabase_key_env": "SUPABASE_KEY_1",
+		"table_name": "profiles"
+	},
+	{
+		"name": "Database2",
+		"supabase_url_env": "SUPABASE_URL_2",
+		"supabase_key": "your-direct-supabase-key",
+		"table_name": "my-table"
+	},
+	{
+		"name": "Database3",
+		"supabase_url_env": "SUPABASE_URL_3",
+		"supabase_key_env": "SUPABASE_KEY_3",
+		"table_name_env": "TABLE_NAME_3"
+	}
+]

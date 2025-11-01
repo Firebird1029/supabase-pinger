@@ -24,7 +24,7 @@ export async function pingDatabases(): Promise<void> {
 			}
 		}
 
-		console.log(`Successfully pinged databases: ${successfulDatabases.join(", ")}`);
+		// console.log(`Successfully pinged databases: ${successfulDatabases.join(", ")}`);
 	} catch (error) {
 		console.error("Error pinging databases:", error);
 	}
